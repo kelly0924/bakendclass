@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="idValue">
+    <input type="text" id="pwValue">
+    <input type="button" value="로그인" onclick="loginEvent()">
+
+
+    <input type="button" value="token로그인" onclick="tokenLoginEVent()">
+
+    <script>
+        window.onload=()=>{//자동 로그인 체크 jwt 토큰 인증 
+            if (localStorage.getItem("loginToken")) {
+                fetch("/token/verify", {
+                    "method": "POST", //요청하는     제이쓴 키 값으로 되였있다. 
+                    "headers":{// 값을 여려가 들어 간다.
+                        "auth":localStorage.getItem("loginToken")
+                    }
+                })
+                .then((result)=>{
+                    return result.json()//받아 온 것을 json으로 바꿔 준다. 애도 비동이 처리
+                })
+                .then((result)=>{//위에 것을 하고 나면 해달라 , 윗쪽 비동기가 끝나면 이 코드를 실행 시켜 달라 promiss
+
+                    if(result.success == true){
+                        //token을 저장 해야 한다. 
+                        //스토리지 2개 cookie, locall storag
+                        alert("로그인 성공")
+                    }else{
+                        alert(result.message)
+                        localStorage.removeItem("loginToken")//보내준 토큰이 잘 못 된 경우 삭제 해야 한다. 
+                    }
+                })
+            }    
+        }
+
+    const tokenLoginEVent=()=>{//토큰  등록
+        fetch("/token/login",{//result 에 저장이 된다. 
+                    "method": "POST", //요청하는     제이쓴 키 값으로 되였있다. 
+                    "headers":{// 값을 여려가 들어 간다.
+                        "Content-Type":"application/json"
+                    } ,//
+                    "body": JSON.stringify({
+                        "id": document.getElementById("idValue").value,
+                        "pw": document.getElementById("pwValue").value,//백엔드가 미리 정해 놓은대로 적으면 된다. 
+                        //백엔드로 요청이 보내 진다. 
+                    }) 
+                    //body에 내가 넣고 시피은 값을 적어야 한다 그 위는 고정 값
+                })//첫, apiName, 객체
+                //JSON.stringify()  json은 문자로 바꿔서 보내 줘야 한다. 위쪽 내용은 프론트엔드가 필요한 정보이고 body에 내용이 
+                // 백엔드에 보내 진다. 
+                //실질적으로는 body만 보낸다.
+                .then((result)=>{
+                return result.json()//받아 온 것을 json으로 바꿔 준다. 애도 비동이 처리
+                })
+                .then((result)=>{//위에 것을 하고 나면 해달라 , 윗쪽 비동기가 끝나면 이 코드를 실행 시켜 달라 promiss
+
+                    if(result.success == true){
+                        //token을 저장 해야 한다. 
+                        //스토리지 2개 cookie, locall storage
+                        
+                        //web storage cookie의 용양 제안과 20개 밖에 생성 못하는 단점 보안 해서 
+                        localStorage.setItem("loginToken",result.token)//로그인 하고 나면 스토리지에 저장이 된다. 
+
+                        alert("로그인 성공")
+                    }else{
+                        alert(result.message)
+                    }
+                })
+
+    }
+
+
+
+        //   const loginEvent2 = async() =>{//async 함수안에는 비동기 처리가 되어 있다.
+        //    const result= await fetch("/login",{//result 에 저장이 된다. 
+        //             "method": "POST", //요청하는     제이쓴 키 값으로 되였있다. 
+        //             "headers":{// 값을 여려가 들어 간다.
+        //                 "Content-Type":"application/json"
+        //             } ,//
+        //             "body": JSON.stringify({
+        //                 "id": document.getElementById("idValue"),
+        //                 "pw": document.getElementById("pwValue")//백엔드가 미리 정해 놓은대로 적으면 된다. 
+        //                 //백엔드로 요청이 보내 진다. 
+        //             }) 
+        //             //body에 내가 넣고 시피은 값을 적어야 한다 그 위는 고정 값
+        //         })//첫, apiName, 객체
+                
+        //         const data= await result.json()
+        //         if(data.sucess == true){
+        //             alert("로그인 성공")
+        //             }else{
+        //                 alert("로그인 실패")
+        //             }
+        //   }
+
+        const loginEvent = () =>{
+            fetch("/account/login",{//result 에 저장이 된다. 
+                    "method": "POST", //요청하는     제이쓴 키 값으로 되였있다. 
+                    "headers":{// 값을 여려가 들어 간다.
+                        "Content-Type":"application/json"
+                    } ,//
+                    "body": JSON.stringify({
+                        "id": document.getElementById("idValue").value,
+                        "pw": document.getElementById("pwValue").value,//백엔드가 미리 정해 놓은대로 적으면 된다. 
+                        //백엔드로 요청이 보내 진다. 
+                    }) 
+                    //body에 내가 넣고 시피은 값을 적어야 한다 그 위는 고정 값
+                })//첫, apiName, 객체
+                //JSON.stringify()  json은 문자로 바꿔서 보내 줘야 한다. 위쪽 내용은 프론트엔드가 필요한 정보이고 body에 내용이 
+                // 백엔드에 보내 진다. 
+                //실질적으로는 body만 보낸다.
+                .then((result)=>{
+                return result.json()//받아 온 것을 json으로 바꿔 준다. 애도 비동이 처리
+                })
+                .then((result)=>{//위에 것을 하고 나면 해달라 , 윗쪽 비동기가 끝나면 이 코드를 실행 시켜 달라 promiss
+                    if(result.sucess == true){
+                    alert("로그인 성공")
+                    }else{
+                        alert("로그인 실패")
+                    }
+                })
+                // result=result.json//받아 온 것을 json으로 바꿔 준다. 
+                // console.log(result)
+                // if(result.success == true){
+                //     alert("로그인 성공")
+                // }else{
+                //     alert("로그인 실패")
+                // }
+        }
+
+    </script>
+</body>
+</html>
