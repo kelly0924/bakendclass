@@ -41,6 +41,8 @@ app.use("/token",tokenApi)
 const counterApi=require("./router/counter")
 app.use("/counter",counterApi)
 
+const cartApi=require("./router/cart")
+app.use("/cart",cartApi)
 
 app.listen(port,()=>{
     console.log(port + "번 포트에서 http통신을 시작 할 것이다.")

@@ -9,6 +9,80 @@
     <input type="button" value="숫자 증가" onclick="increseEvent()">
     <input type="button" value="숫자 출력" onclick="printEvent()">
     <input type="button" value="숫자 초기회" onclick="clearEvent()">
+    
+    <div>
+        <p> 모니터</p>
+        <input type="button" value="+" onclick="increaseItem('모니터')">
+        <input type="button" value="-" onclick=" decreaseItem('모니터')">
+
+    </div>
+
+    <div>
+        <p>키보드</p>
+        <input type="button" value="+" onclick="increaseItem('키보드')">
+        <input type="button" value="-" onclick=" decreaseItem('키보드')">
+
+    </div>
+
+    <div>
+        <p>마우스</p>
+        <input type="button" value="+" onclick="increaseItem('마우스')">
+        <input type="button" value="-" onclick=" decreaseItem('마우스')">
+
+    </div>
+
+    <input type="button" value="장바구니 출력" onclick="printItem()">
+
+    <script>
+        const increaseItem=(itemName)=>{
+            fetch("/cart/increase",{
+                "method":"POST",
+                "headers":{
+                    "Content-Type":"application/json"
+                },
+                "body":JSON.stringify({
+                    "itemName":itemName
+                })
+            })
+            .then((res=>res.json()))
+            .then((result)=>{
+                if(result.success){
+                    console.log(itemName,"의 개수 증가")
+                }
+            })
+        }
+
+        const decreaseItem=(itemName)=>{
+            fetch("/cart/decrease",{
+                "method":"POST",
+                "headers":{
+                    "Content-Type":"application/json"
+                },
+                "body":JSON.stringify({
+                    "itemName":itemName
+                })
+            })
+            .then((res=>res.json()))
+            .then((result)=>{
+                if(result.success){
+                    console.log(itemName,"의 개수 감소")
+                }
+            })
+        }
+
+        const printItem =()=>{
+            fetch("/cart")
+            .then((res=>res.json()))
+            .then((result)=>{
+                if(result.success){
+                    console.log(result.value)
+                }
+            })
+        }
+
+        
+    </script>
+
 
     <script>
         const increseEvent =()=>{
