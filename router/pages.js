@@ -14,4 +14,8 @@ router.get("/loginPage",(req,res)=>{
     res.sendFile(path.join(__dirname,"../loginPage.html"))
 })
 
+router.get("/redisPage",(req,res)=>{
+    res.sendFile(path.join(__dirname,"../redisPage.html"))
+})
+
 module.exports=router

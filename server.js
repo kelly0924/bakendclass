@@ -37,6 +37,10 @@ app.use("/account",accountApi)//Import 한 api 를 등록 해줘야 한다.
 const tokenApi=require("./router/token")
 app.use("/token",tokenApi)
 
+//redis 
+const counterApi=require("./router/counter")
+app.use("/counter",counterApi)
+
 
 app.listen(port,()=>{
     console.log(port + "번 포트에서 http통신을 시작 할 것이다.")

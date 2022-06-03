@@ -14,12 +14,13 @@
     <input type="button" value="token로그인" onclick="tokenLoginEVent()">
 
     <script>
-        window.onload=()=>{//자동 로그인 체크 jwt 토큰 인증 
+        window.onload=()=>{//자동 로그인 체크 jwt 토큰 인증   FE에서 발급된 토큰이 있는지 검사 해 본다. 
             if (localStorage.getItem("loginToken")) {
-                fetch("/token/verify", {
+                fetch("/token/verify", {//이 토큰이 유효 한지 서버에게 보내줌
                     "method": "POST", //요청하는     제이쓴 키 값으로 되였있다. 
                     "headers":{// 값을 여려가 들어 간다.
-                        "auth":localStorage.getItem("loginToken")
+                        "auth":localStorage.getItem("loginToken")// 이 을 보내 준다.  --> 서버에선 verify api는 이 토큰이 자기가 발급한 토큰인지 를 보고 
+                        //사용 유 무를 알려 준다. 
                     }
                 })
                 .then((result)=>{
@@ -56,7 +57,7 @@
                 // 백엔드에 보내 진다. 
                 //실질적으로는 body만 보낸다.
                 .then((result)=>{
-                return result.json()//받아 온 것을 json으로 바꿔 준다. 애도 비동이 처리
+                    return result.json()//받아 온 것을 json으로 바꿔 준다. 애도 비동이 처리
                 })
                 .then((result)=>{//위에 것을 하고 나면 해달라 , 윗쪽 비동기가 끝나면 이 코드를 실행 시켜 달라 promiss
 
@@ -66,6 +67,7 @@
                         
                         //web storage cookie의 용양 제안과 20개 밖에 생성 못하는 단점 보안 해서 
                         localStorage.setItem("loginToken",result.token)//로그인 하고 나면 스토리지에 저장이 된다. 
+                        //로그인 성공시 서버가 보내준 토큰을 프론트 엔드는 어딘가에 저저아 해줘야 한다. 
 
                         alert("로그인 성공")
                     }else{
