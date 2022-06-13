@@ -10,7 +10,7 @@ router.post("/",async(req,res)=>{
     }
      
     try{
-       await redis.connect()//비동기 함수의 await 붙히고 
+       await redis.connect()//비동기 함수의 await 붙히고  연결하기 
 
        const value= await redis.get(redisKey)// 고유한 값으로 해줘야 한다. 회원아이디, 시리얼 번호를 붙혀가지고 한다. 
        // get(key) 가 들어 간다.  string 을 가져 온다. 
@@ -21,10 +21,8 @@ router.post("/",async(req,res)=>{
            await redis.set(redisKey,parseInt(value)+1)
        }
 
-       await redis.disconnect()
-       console.log(value)
-
-       result.success=true
+       await redis.disconnect()//연결된 redis 연결 끊기 
+       result.success=true//성공한 경우 프론트엔드에게 돌려 주기 
 
        res.send(result)
     }catch(err){
@@ -53,7 +51,7 @@ router.get("/", async(req,res)=>{
         console.log(err)
         res.send(result)
     }
-    
+     
 })
 
 router.delete("/",async(req,res)=>{

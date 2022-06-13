@@ -18,4 +18,8 @@ router.get("/redisPage",(req,res)=>{
     res.sendFile(path.join(__dirname,"../redisPage.html"))
 })
 
+router.get("/elasticPage",(req,res)=>{
+    res.sendFile(path.join(__dirname,"../elasticPage.html"))
+})
+
 module.exports=router

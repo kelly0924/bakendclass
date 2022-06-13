@@ -48,6 +48,12 @@ app.listen(port,()=>{
     console.log(port + "번 포트에서 http통신을 시작 할 것이다.")
 })//http 통신을 시작 하겠다.(app.listen) port에서 듣겠다.  뒤에서 그래서 내가 http 통신을 시작 할 때 수행할 함수를 쓰겠다. 
 
+
+//elastic
+
+const elasticApi=require("./router/elastic")
+app.use("/elastic",elasticApi)
+
 //https 통신 열어 주기 
 // https.createServer(option,app).listen(sslProt,()=>{
 //     console.log(sslProt + "번 포트에서 http통신을 시작 할 것이다.")

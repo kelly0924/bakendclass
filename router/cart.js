@@ -18,7 +18,6 @@ router.post("/increase",async(req,res)=>{
             await redis.hSet(redisKey,itemName,parseInt(value)+1)
             await redis.expire(redisKey,2)
         }
-
         await redis.disconnect()
         result.success=true
         res.send(result)
@@ -29,8 +28,6 @@ router.post("/increase",async(req,res)=>{
     }
 
 })
-
-
 
 router.post("/decrease",async(req,res)=>{
     const itemName=req.body.itemName
